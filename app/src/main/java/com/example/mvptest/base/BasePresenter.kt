@@ -1,4 +1,4 @@
-package com.example.homework.base
+package com.example.mvptest.base
 
 import java.lang.ref.WeakReference
 

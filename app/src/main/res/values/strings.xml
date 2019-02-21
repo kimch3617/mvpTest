@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Homework</string>
-    <string name="github_avatar_image">github avatar image</string>
+    <string name="app_name">MvpTest</string>
+    <string name="menu_search">검색</string>
+    <string name="menu_like_list">좋아요 목록</string>
 </resources>

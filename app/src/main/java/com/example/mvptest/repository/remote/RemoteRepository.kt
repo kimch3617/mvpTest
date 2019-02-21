@@ -1,6 +1,5 @@
-package com.example.homework.repository
+package com.example.mvptest.repository.remote
 
-import android.util.Log
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -8,20 +7,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RemoteRepository private constructor() {
-    companion object {
-        val BASE_URL = "https://api.github.com"
-//        val get: RestApi by lazy { Create.INSTANCE.service }
-//
-        fun create(): RestApi {
-            Log.e("create", "create, ${INSTANCE.service}")
-            return INSTANCE.service
-        }
-        private val INSTANCE: RemoteRepository by lazy { RemoteRepository() }
-    }
+object RemoteRepository {
+    val BASE_URL = "https://api.github.com/"
 
     private var service: RestApi
-//    private object Create { val INSTANCE = RemoteRepository() }
+    fun create(): RestApi {
+        return service
+    }
 
     init {
         val gsonBuilder = GsonBuilder()
@@ -38,6 +30,5 @@ class RemoteRepository private constructor() {
         retrofit.client(httpClient.build())
 
         service = retrofit.build().create(RestApi::class.java)
-        Log.e("service", service.toString())
     }
 }

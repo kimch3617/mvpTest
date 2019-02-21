@@ -1,6 +1,5 @@
-package com.example.homework.base
+package com.example.mvptest.base
 
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 
