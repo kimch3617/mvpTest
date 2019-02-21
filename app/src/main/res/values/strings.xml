@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">My Application</string>
-
-    <string name="pager1">홈</string>
-    <string name="pager2">사진피드</string>
+    <string name="app_name">Homework</string>
+    <string name="github_avatar_image">github avatar image</string>
 </resources>
