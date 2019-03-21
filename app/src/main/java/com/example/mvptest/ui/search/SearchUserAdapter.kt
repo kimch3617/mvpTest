@@ -10,7 +10,6 @@ import com.example.mvptest.R
 import com.example.mvptest.base.BaseRecyclerViewAdapter
 import com.example.mvptest.data.User
 import com.example.mvptest.databinding.ItemUserBinding
-import com.example.mvptest.repository.local.UserLocalDataSource
 
 class SearchUserAdapter(private val callback: (position: Int, user: User?) -> Unit): BaseRecyclerViewAdapter<User, SearchUserAdapter.UserHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {

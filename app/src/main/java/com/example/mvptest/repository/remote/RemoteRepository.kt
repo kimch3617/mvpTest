@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RemoteRepository {
-    val BASE_URL = "https://api.github.com/"
+    private const val BASE_URL = "https://api.github.com/"
 
     private var service: RestApi
     fun create(): RestApi {

@@ -9,12 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.mvptest.R
 import com.example.mvptest.base.BaseActivity
-import com.example.mvptest.data.SearchUsers
 import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
 import com.example.mvptest.ui.like.LikeUserActivity
 import com.example.mvptest.util.PaginationScrollListener
-import com.example.mvptest.ui.search.SearchUserPresenter
 import kotlinx.android.synthetic.main.activity_search_user.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
