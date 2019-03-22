@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.SimpleItemAnimator
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.mvptest.R
@@ -16,36 +17,45 @@ import com.example.mvptest.util.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_search_user.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import javax.inject.Inject
 
 class SearchUserActivity : BaseActivity(), SearchUserContract.View {
-    private lateinit var mDataSource: UserLocalDataSource
-    private lateinit var mPresenter: SearchUserPresenter
-    private lateinit var mAdapter: SearchUserAdapter
+
+    @Inject protected lateinit var dataSource: UserLocalDataSource
+    @Inject protected lateinit var presenter: SearchUserPresenter
+    @Inject protected lateinit var adapter: SearchUserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_user)
         EventBus.getDefault().register(this)
 
-        mDataSource = UserLocalDataSource(this)
-        mAdapter = SearchUserAdapter { position, user ->
-            user?.let { it ->
-                mPresenter.addLikeUser(position, it)
+        adapter.callback = { position, user ->
+            Log.e("click", "$position, $user")
+            user?.let {
+                presenter.addLikeUser(position, it)
             }
         }
 
-        mPresenter = SearchUserPresenter(this, mDataSource)
-        mPresenter.bindView(this)
+        presenter.bindView(this)
 
         val manager = LinearLayoutManager(this)
-        recycler_users.adapter = mAdapter
+        recycler_users.adapter = adapter
         recycler_users.layoutManager = manager
         (recycler_users.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recycler_users.addOnScrollListener(object: PaginationScrollListener(manager) {
             override fun loadMoreItems() {
-                mPresenter.loadUsers()
+                presenter.loadUsers()
             }
         })
+    }
+
+    override fun onDestroy() {
+        dataSource.finish()
+
+        EventBus.getDefault().unregister(this)
+
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,7 +65,7 @@ class SearchUserActivity : BaseActivity(), SearchUserContract.View {
         val searchViewActionBar = searchViewItem.actionView as SearchView
         searchViewActionBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(q: String?): Boolean {
-                mPresenter.searchQuery(q)
+                presenter.searchQuery(q)
                 searchViewActionBar.clearFocus()
                 return true
             }
@@ -77,31 +87,26 @@ class SearchUserActivity : BaseActivity(), SearchUserContract.View {
         }
     }
 
-    override fun onDestroy() {
-        mDataSource.finish()
-        EventBus.getDefault().unregister(this)
-        super.onDestroy()
-    }
-
     @Subscribe
     fun onUserEvent(user: User) {
-        val index = mAdapter.getItemList().indexOf(user)
+        val index = adapter.getItemList().indexOf(user)
         if (index != -1) {
-            val item = mAdapter.getItem(index)
+            val item = adapter.getItem(index)
             item?.isLike = false
-            mAdapter.notifyItemChanged(index)
+            adapter.notifyItemChanged(index)
         }
     }
 
     override fun addUsers(users: List<User>) {
-        mAdapter.addItems(users)
+        adapter.addItems(users)
     }
 
     override fun removeAdapterItems() {
-        mAdapter.removeAll()
+        adapter.removeAll()
     }
 
     override fun notifyItemChanged(position: Int) {
-        mAdapter.notifyItemChanged(position)
+        adapter.notifyItemChanged(position)
     }
+
 }

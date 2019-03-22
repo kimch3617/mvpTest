@@ -9,48 +9,50 @@ import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
 import kotlinx.android.synthetic.main.activity_like_user.*
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
 class LikeUserActivity : BaseActivity(), LikeUserContract.View {
-    private lateinit var mDataSource: UserLocalDataSource
-    private lateinit var mPresenter: LikeUserPresenter
-    private lateinit var mAdapter: LikeUserAdapter
+    
+    @Inject protected lateinit var dataSource: UserLocalDataSource
+    @Inject protected lateinit var presenter: LikeUserPresenter
+    @Inject protected lateinit var adapter: LikeUserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_like_user)
 
-        mDataSource = UserLocalDataSource(this)
-        mAdapter = LikeUserAdapter { user ->
+        adapter.clickCallback = { user ->
             user?.let {
-                mPresenter.removeLikeUser(it)
+                presenter.removeLikeUser(it)
             }
         }
 
-        mPresenter = LikeUserPresenter(mDataSource)
-        mPresenter.bindView(this)
+        presenter.bindView(this)
 
         val manager = LinearLayoutManager(this)
-        recycler_users.adapter = mAdapter
+        recycler_users.adapter = adapter
         recycler_users.layoutManager = manager
         (recycler_users.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
-        mPresenter.loadLikeUser()
+        presenter.loadLikeUser()
     }
 
     override fun onDestroy() {
-        mDataSource.finish()
+        dataSource.finish()
+
         super.onDestroy()
     }
 
     override fun addUsers(users: List<User>) {
-        mAdapter.addItems(users)
+        adapter.addItems(users)
     }
 
     override fun removeUser(user: User) {
-        mAdapter.removeItem(user)
+        adapter.removeItem(user)
     }
 
     override fun postEventUser(user: User) {
         EventBus.getDefault().post(user)
     }
+    
 }

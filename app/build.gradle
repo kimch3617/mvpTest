@@ -17,11 +17,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
     }
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
 }
 
 dependencies {
@@ -42,7 +47,7 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$arch_room_version"
     kapt "android.arch.persistence.room:compiler:$arch_room_version"
     // Databinding
-    kapt "androidx.databinding:databinding-compiler:3.3.2"
+//    kapt "androidx.databinding:databinding-compiler:3.3.2"
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'

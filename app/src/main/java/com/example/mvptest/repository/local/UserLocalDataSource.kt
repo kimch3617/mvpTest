@@ -1,42 +1,50 @@
 package com.example.mvptest.repository.local
 
 import android.content.Context
+import android.util.Log
 import com.example.mvptest.data.User
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class UserLocalDataSource(context: Context) {
-    private val mUserDao = AppDatabase.getInstance(context).userDao()
-    private val mExecutor: ExecutorService = Executors.newCachedThreadPool()
+class UserLocalDataSource @Inject constructor(context: Context) {
+
+    private var executor: ExecutorService = Executors.newCachedThreadPool()
+    private var userDao = AppDatabase.getInstance(context).userDao()
+
+    init {
+        Log.e("UserLocalDataSource", "init")
+    }
 
     fun getUsers(loaded: (users: List<User>) -> Unit) {
-        mExecutor.execute {
-            val users = mUserDao.getUsers()
+        executor.execute {
+            val users = userDao.getUsers()
             loaded(users)
         }
     }
 
     fun insertUser(user: User) {
-        mExecutor.execute {
-            mUserDao.insertUser(user)
+        executor.execute {
+            userDao.insertUser(user)
         }
     }
 
     fun containUsers(ids: List<Int>, loaded: (users: List<User>) -> Unit) {
-        mExecutor.execute {
-            val users = mUserDao.containUsers(ids)
+        executor.execute {
+            val users = userDao.containUsers(ids)
             loaded(users)
         }
     }
 
     fun deleteUser(user: User) {
-        mExecutor.execute {
-            val users = mUserDao.deleteUser(user)
+        executor.execute {
+            val users = userDao.deleteUser(user)
         }
     }
 
     fun finish() {
-        mExecutor.shutdown()
+        executor.shutdown()
         AppDatabase.destroyInstance()
     }
+
 }
