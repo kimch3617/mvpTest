@@ -28,6 +28,7 @@ class LikeUserActivity : BaseActivity(), LikeUserContract.View {
         }
 
         presenter.bindView(this)
+        dataSource.start()
 
         val manager = LinearLayoutManager(this)
         recycler_users.adapter = adapter

@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.search
+package com.example.mvptest.ui.orgin.search
 
 import android.content.Context
 import com.example.mvptest.base.BaseRecyclerViewAdapter
@@ -23,11 +23,11 @@ internal interface SearchUserModule {
 //            return SearchUserPresenter(dataSource)
 //        }
 
-        @Provides
-        @ActivityScope
-        fun provideDataSource(context: Context): UserLocalDataSource {
-            return UserLocalDataSource(context)
-        }
+//        @Provides
+//        @ActivityScope
+//        fun provideDataSource(context: Context): UserLocalDataSource {
+//            return UserLocalDataSource(context)
+//        }
     }
 
     @Binds

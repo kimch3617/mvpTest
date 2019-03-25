@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.search
+package com.example.mvptest.ui.orgin.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -38,6 +38,7 @@ class SearchUserActivity : BaseActivity(), SearchUserContract.View {
         }
 
         presenter.bindView(this)
+        dataSource.start()
 
         val manager = LinearLayoutManager(this)
         recycler_users.adapter = adapter
@@ -52,6 +53,7 @@ class SearchUserActivity : BaseActivity(), SearchUserContract.View {
 
     override fun onDestroy() {
         dataSource.finish()
+        Log.e("SearchUserActivity", "$dataSource")
 
         EventBus.getDefault().unregister(this)
 

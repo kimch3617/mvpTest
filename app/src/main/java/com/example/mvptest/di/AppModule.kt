@@ -7,8 +7,9 @@ import com.knowre.android.digitalmath.di.scope.ActivityScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import javax.inject.Singleton
-
 
 @Module(
     includes = [
@@ -18,11 +19,16 @@ import javax.inject.Singleton
 internal interface AppModule {
     @Module
     class ProvideModule {
-//        @Provides
-//        @Singleton
-//        fun provideDataSource(context: Context): UserLocalDataSource {
-//            return UserLocalDataSource(context)
-//        }
+        @Provides
+        @Singleton
+        fun provideDataSource(context: Context): UserLocalDataSource {
+            return UserLocalDataSource(context)
+        }
+
+        @Provides
+        fun provideExecutorService(): ExecutorService {
+            return Executors.newCachedThreadPool()
+        }
     }
 
     @Binds

@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.search
+package com.example.mvptest.ui.orgin.search
 
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -18,7 +18,12 @@ class SearchUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, Sea
     lateinit var callback: (position: Int, user: User?) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
-        val holder = UserHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user_no_binding, null))
+        val holder = UserHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_user_no_binding,
+                null
+            )
+        )
         holder.itemView.setOnClickListener {
             val item = getItem(holder.adapterPosition)
             callback(holder.adapterPosition, item)

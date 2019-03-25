@@ -9,11 +9,12 @@ import javax.inject.Inject
 
 class UserLocalDataSource @Inject constructor(context: Context) {
 
-    private var executor: ExecutorService = Executors.newCachedThreadPool()
+//    @Inject lateinit var executor: ExecutorService
+    private var executor = Executors.newCachedThreadPool()
     private var userDao = AppDatabase.getInstance(context).userDao()
 
     init {
-        Log.e("UserLocalDataSource", "init")
+        Log.e("UserLocalDataSource", "init $this")
     }
 
     fun getUsers(loaded: (users: List<User>) -> Unit) {
@@ -42,7 +43,13 @@ class UserLocalDataSource @Inject constructor(context: Context) {
         }
     }
 
+    fun start() {
+        Log.e("start", "start")
+        executor = Executors.newCachedThreadPool()
+    }
+
     fun finish() {
+        Log.e("executor", "$executor")
         executor.shutdown()
         AppDatabase.destroyInstance()
     }
