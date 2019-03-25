@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.search
+package com.example.mvptest.ui.orgin.search
 
 import com.example.mvptest.base.BasePresenter
 import com.example.mvptest.base.BaseView
@@ -12,7 +12,7 @@ interface SearchUserContract {
         fun notifyItemChanged(position: Int)
     }
 
-    abstract class Presenter : BasePresenter<SearchUserContract.View>() {
+    abstract class Presenter : BasePresenter<View>() {
         abstract fun loadUsers()
         abstract fun setUsers(users: SearchUsers)
         abstract fun searchQuery(query: String?)

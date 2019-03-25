@@ -17,11 +17,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
     }
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
 }
 
 dependencies {
@@ -38,17 +43,18 @@ dependencies {
     implementation "com.android.support:support-v4:$support_lib_version"
     implementation "com.android.support:design:$support_lib_version"
 
-    implementation "android.arch.persistence.room:runtime:$archRoom_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$archRoom_version"
-    kapt "android.arch.persistence.room:compiler:$archRoom_version"
+    implementation "android.arch.persistence.room:runtime:$arch_room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$arch_room_version"
+    kapt "android.arch.persistence.room:compiler:$arch_room_version"
     // Databinding
-    kapt "androidx.databinding:databinding-compiler:3.3.2"
+//    kapt "androidx.databinding:databinding-compiler:3.3.2"
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:converter-simplexml:2.3.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     // Image Loader
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
@@ -56,9 +62,12 @@ dependencies {
     // event bus
     implementation 'org.greenrobot:eventbus:3.1.1'
     //dagger
-    def dagger_version = "2.20"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.5"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
 }

@@ -3,6 +3,7 @@ package com.example.mvptest.base
 import java.lang.ref.WeakReference
 
 abstract class BasePresenter<V : BaseView> {
+
     private var view: WeakReference<V>? = null
 
     fun bindView(view: V) {
@@ -20,4 +21,5 @@ abstract class BasePresenter<V : BaseView> {
             view!!.get()
         }
     }
+
 }
