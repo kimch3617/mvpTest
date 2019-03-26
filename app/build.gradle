@@ -3,6 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+//def getAppVersionCode = { ->
+//    return project.hasProperty('versionCode') ? versionCode.toInteger() : 1
+//}
+//
+//def getAppVersionName = { ->
+//    return project.hasProperty('versionName') ? versionName : "1.0"
+//}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -24,9 +32,6 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
     }
-//    dataBinding {
-//        enabled = true
-//    }
 }
 
 dependencies {

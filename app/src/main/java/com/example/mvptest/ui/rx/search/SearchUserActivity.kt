@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.orgin.search
+package com.example.mvptest.ui.rx.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,10 @@ import com.example.mvptest.R
 import com.example.mvptest.base.BaseActivity
 import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
-import com.example.mvptest.ui.like.LikeUserActivity
+import com.example.mvptest.ui.like._LikeUserActivity
+import com.example.mvptest.ui.orgin.search.SearchUserAdapter
+import com.example.mvptest.ui.orgin.search.SearchUserContract
+import com.example.mvptest.ui.orgin.search.SearchUserPresenter
 import com.example.mvptest.util.PaginationScrollListener
 import kotlinx.android.synthetic.main.activity_search_user.*
 import org.greenrobot.eventbus.EventBus
@@ -53,7 +56,7 @@ class SearchUserActivity : BaseActivity(), SearchUserContract.View {
 
     override fun onDestroy() {
         dataSource.finish()
-        Log.e("SearchUserActivity", "$dataSource")
+        Log.e("_SearchUserActivity", "$dataSource")
 
         EventBus.getDefault().unregister(this)
 
@@ -82,7 +85,7 @@ class SearchUserActivity : BaseActivity(), SearchUserContract.View {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_action_like -> {
-                startActivity(Intent(this, LikeUserActivity::class.java))
+                startActivity(Intent(this, _LikeUserActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
