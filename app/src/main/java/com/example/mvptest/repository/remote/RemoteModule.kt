@@ -28,29 +28,16 @@ internal interface RemoteModule {
             return BuildConfig.BASE_URL
         }
 
-//        @Provides
-//        @Singleton
-//        fun provideRetrofit(@BaseUrl baseUrl: String): RestApi {
-//            val gsonBuilder = GsonBuilder()
-//            gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-//            val retrofit = Retrofit.Builder()
-//                .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
-//
-//            val httpClient = OkHttpClient.Builder()
-//            val interceptor = HttpLoggingInterceptor()
-//            interceptor.level = HttpLoggingInterceptor.Level.BODY
-//            httpClient.addInterceptor(interceptor)
-//
-//            retrofit.client(httpClient.build())
-//
-//            return retrofit.build().create(RestApi::class.java)
-//        }
-
         @Provides
         @Singleton
         fun provideRemoteRepository(@BaseUrl baseUrl: String): RestApi {
             return RemoteRepository(baseUrl).service
+        }
+
+        @Provides
+        @Singleton
+        fun provideRxRemoteRepository(@BaseUrl baseUrl: String): RxRestApi {
+            return RxRemoteRepository(baseUrl).service
         }
     }
 }

@@ -1,13 +1,13 @@
-package com.example.mvptest.ui.orgin.search
+package com.example.mvptest.ui.rx.search
 
-import android.content.Context
 import com.example.mvptest.base.BaseRecyclerViewAdapter
 import com.example.mvptest.data.User
-import com.example.mvptest.repository.local.UserLocalDataSource
+import com.example.mvptest.ui.orgin.search.SearchUserAdapter
+import com.example.mvptest.ui.orgin.search.SearchUserContract
+import com.example.mvptest.ui.orgin.search.SearchUserPresenter
 import com.knowre.android.digitalmath.di.scope.ActivityScope
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module(
     includes = [
