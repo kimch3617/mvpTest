@@ -8,6 +8,16 @@ buildscript {
         dagger_version = "2.20"
     }
 
+    ext {
+        buildTypeDebug     = "debug"
+        buildTypeQa        = "qa"
+        buildTypeRelease   = "release"
+    }
+
+    ext {
+        appName = "MyApp"
+    }
+
     repositories {
         google()
         jcenter()
