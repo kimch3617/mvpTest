@@ -15,7 +15,7 @@ internal class RemoteRepository @Inject constructor(@BaseUrl private val baseUrl
     var service: RestApi
 
     init {
-        Log.e("provideRemoteRepository", "init")
+        Log.e("provideRemoteRepository", "inittest")
         val gsonBuilder = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
