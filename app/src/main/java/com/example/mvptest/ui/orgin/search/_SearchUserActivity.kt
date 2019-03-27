@@ -2,14 +2,14 @@ package com.example.mvptest.ui.orgin.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.SimpleItemAnimator
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.mvptest.R
-import com.example.mvptest.base.BaseActivity
+import com.example.mvptest.base._BaseActivity
 import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
 import com.example.mvptest.ui.like._LikeUserActivity
@@ -19,11 +19,11 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
-class _SearchUserActivity : BaseActivity(), SearchUserContract.View {
+class _SearchUserActivity : _BaseActivity(), SearchUserContract.View {
 
     @Inject protected lateinit var dataSource: UserLocalDataSource
     @Inject protected lateinit var presenter: SearchUserPresenter
-    @Inject protected lateinit var adapter: SearchUserAdapter
+    @Inject protected lateinit var adapter: _SearchUserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

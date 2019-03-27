@@ -7,8 +7,9 @@ import com.example.mvptest.ui.rx.search.navigation.SearchUserNavigation
 import com.jakewharton.rxrelay2.PublishRelay
 import com.jakewharton.rxrelay2.Relay
 import io.reactivex.Observable
+import javax.inject.Inject
 
-internal class SearchUserChannel : SearchUserChannelApi {
+internal class SearchUserChannel @Inject constructor() : SearchUserChannelApi {
 
     private val dataChannel: Relay<RemoteData>                  = PublishRelay.create()
     private val lifecycleChannel: Relay<ActivityLifecycle>      = PublishRelay.create()

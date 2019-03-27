@@ -1,6 +1,6 @@
 package com.example.mvptest.base
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerViewAdapter<T, VH: RecyclerView.ViewHolder>: RecyclerView.Adapter<VH>() {
     private val itemList: ArrayList<T> = arrayListOf()

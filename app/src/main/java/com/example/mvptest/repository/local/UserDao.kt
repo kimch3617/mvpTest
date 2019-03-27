@@ -1,6 +1,6 @@
 package com.example.mvptest.repository.local
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.example.mvptest.data.User
 
 @Dao

@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.like
+package com.example.mvptest.ui.rx.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +12,22 @@ import com.example.mvptest.data.User
 import kotlinx.android.synthetic.main.item_user_no_binding.view.*
 import javax.inject.Inject
 
-class LikeUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, LikeUserAdapter.UserHolder>() {
+class SearchUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, SearchUserAdapter.UserHolder>() {
 
-    lateinit var clickCallback: (user: User?) -> Unit
+    lateinit var callback: (position: Int, user: User?) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
-        val holder = UserHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user_no_binding, null))
+        val holder = UserHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_user_no_binding,
+                null
+            )
+        )
         holder.itemView.setOnClickListener {
-            clickCallback(getItem(holder.adapterPosition))
+            val item = getItem(holder.adapterPosition)
+            callback(holder.adapterPosition, item)
         }
+
         return holder
     }
 

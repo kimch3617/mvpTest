@@ -1,17 +1,17 @@
 package com.example.mvptest.ui.like
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SimpleItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.mvptest.R
-import com.example.mvptest.base.BaseActivity
+import com.example.mvptest.base._BaseActivity
 import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
 import kotlinx.android.synthetic.main.activity_like_user.*
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class _LikeUserActivity : BaseActivity(), LikeUserContract.View {
+class _LikeUserActivity : _BaseActivity(), LikeUserContract.View {
     
     @Inject protected lateinit var dataSource: UserLocalDataSource
     @Inject protected lateinit var presenter: LikeUserPresenter

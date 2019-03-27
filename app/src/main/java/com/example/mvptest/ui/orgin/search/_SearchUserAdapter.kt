@@ -1,10 +1,9 @@
 package com.example.mvptest.ui.orgin.search
 
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mvptest.R
@@ -13,7 +12,7 @@ import com.example.mvptest.data.User
 import kotlinx.android.synthetic.main.item_user_no_binding.view.*
 import javax.inject.Inject
 
-class SearchUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, SearchUserAdapter.UserHolder>() {
+class _SearchUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, _SearchUserAdapter.UserHolder>() {
 
     lateinit var callback: (position: Int, user: User?) -> Unit
 
