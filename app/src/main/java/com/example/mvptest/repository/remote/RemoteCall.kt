@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-internal class RemoteRepository @Inject constructor(@BaseUrl private val baseUrl: String) {
+internal class RemoteCall @Inject constructor(@BaseUrl private val baseUrl: String) {
 
     var service: RestApi
 

@@ -27,17 +27,17 @@ class SearchUserPresenter @Inject constructor(
     override fun setUsers(users: SearchUsers) {
         val ids = users.items.map { it.id }
 
-        dataSource?.containUsers(ids) { list ->
-            val items = users.items.map {  user ->
-                if (list.contains(user)) user.isLike = true
-                user
-            }
-
-            Handler(Looper.getMainLooper()).post {
-                getView()?.addUsers(items)
-                page++
-            }
-        }
+//        dataSource?.containUsers(ids) { list ->
+//            val items = users.items.map {  user ->
+//                if (list.contains(user)) user.isLike = true
+//                user
+//            }
+//
+//            Handler(Looper.getMainLooper()).post {
+//                getView()?.addUsers(items)
+//                page++
+//            }
+//        }
     }
 
     override fun searchQuery(query: String?) {

@@ -1,6 +1,8 @@
 package com.example.mvptest.ui.like
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.mvptest.R
@@ -10,6 +12,9 @@ import com.example.mvptest.repository.local.UserLocalDataSource
 import kotlinx.android.synthetic.main.activity_like_user.*
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
+import android.app.SearchManager
+
+
 
 class _LikeUserActivity : _BaseActivity(), LikeUserContract.View {
     

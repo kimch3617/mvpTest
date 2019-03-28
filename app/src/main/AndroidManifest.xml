@@ -14,13 +14,19 @@
             android:theme="@style/AppTheme">
         <activity android:name=".ui.rx.search.SearchUserActivity">
             <intent-filter>
+                <!--<action android:name="android.intent.action.SEARCH" />-->
+
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!--<meta-data-->
+                    <!--android:name="android.app.searchable"-->
+                    <!--android:resource="@xml/searchable"-->
+                    <!--android:value=".ui.rx.search.SearchUserActivity"/>-->
         </activity>
-        <activity android:name=".ui.like._LikeUserActivity" />
+        <activity android:name=".ui.like._LikeUserActivity"/>
     </application>
 
 </manifest>

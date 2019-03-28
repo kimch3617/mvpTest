@@ -5,6 +5,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.orgin.search._SearchUserActivity">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="좋아요 페이지"/>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_users"
             android:layout_width="match_parent"
