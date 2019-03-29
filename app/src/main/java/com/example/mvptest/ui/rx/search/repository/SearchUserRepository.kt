@@ -6,8 +6,11 @@ import com.example.mvptest.repository.local.UserLocalDataSource
 import com.example.mvptest.repository.remote.RxRestApi
 import com.example.mvptest.ui.rx.search.dto.LikeUserResult
 import com.example.mvptest.ui.rx.search.viewModel.SearchUserViewModel
+import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.zipWith
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class SearchUserRepository @Inject constructor(
@@ -39,7 +42,7 @@ internal class SearchUserRepository @Inject constructor(
 //                    CallResponse.Success(users) as CallResponse
 //                }
 //                .onErrorReturn { CallResponse.Error(it) }
-//                .share()
+                .share()
 
             val executorCheckLikeUsers = executeSearchUsers
                 .observeOn(Schedulers.io())
@@ -48,11 +51,11 @@ internal class SearchUserRepository @Inject constructor(
                     dataSource.containUsers(ids)
                 }
                 .doOnNext {
-                    Log.e("check", "users: $it")
+                    Log.e("check user", "users: $it")
                 }
-                .doOnError { Log.e("check", "err") }
-                .doOnComplete { Log.e("check", "complete") }
-//                .share()
+                .doOnError { Log.e("check user", "err") }
+                .doOnComplete { Log.e("check user", "complete") }
+                .share()
 
             val executorSearchAndLikeUsers = Observables
                 .zip(executeSearchUsers, executorCheckLikeUsers) { searchUsers, likeUsers ->
@@ -75,8 +78,12 @@ internal class SearchUserRepository @Inject constructor(
             val executeAddLikeUser = clickLike
                 .observeOn(Schedulers.io())
                 .map {
+                    it.user.isLike = true
                     dataSource.insertUser(it.user)
                     CallResponse.Success(LikeUserResult(it.position, true)) as CallResponse
+                }
+                .doOnNext {
+                    Log.e("add", "users: $it")
                 }
                 .onErrorReturn { CallResponse.Error(it) }
                 .share()

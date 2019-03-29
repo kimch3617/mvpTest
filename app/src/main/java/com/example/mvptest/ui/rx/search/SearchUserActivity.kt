@@ -17,7 +17,7 @@ import com.example.mvptest.data.CallResponse
 import com.example.mvptest.data.SearchUsers
 import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
-import com.example.mvptest.ui.like._LikeUserActivity
+import com.example.mvptest.ui.like.LikeUserActivity
 import com.example.mvptest.ui.rx.search.dto.LikeUserResult
 import com.example.mvptest.ui.rx.search.dto.SearchUserViewAction
 import com.example.mvptest.ui.rx.search.viewModel.SearchUserViewModel
@@ -94,7 +94,7 @@ class SearchUserActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_action_like -> {
-                startActivity(Intent(this, _LikeUserActivity::class.java))
+                startActivity(Intent(this, LikeUserActivity::class.java))
                 true
             }
             else -> {

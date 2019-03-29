@@ -26,7 +26,7 @@
                     <!--android:resource="@xml/searchable"-->
                     <!--android:value=".ui.rx.search.SearchUserActivity"/>-->
         </activity>
-        <activity android:name=".ui.like._LikeUserActivity"/>
+        <activity android:name=".ui.like.LikeUserActivity"/>
     </application>
 
 </manifest>

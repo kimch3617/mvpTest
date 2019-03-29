@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.orgin.search._SearchUserActivity">
+        android:orientation="vertical"
+        tools:context=".ui.like.LikeUserActivity">
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -13,5 +14,6 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_users"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/design_default_color_secondary"/>
 </LinearLayout>

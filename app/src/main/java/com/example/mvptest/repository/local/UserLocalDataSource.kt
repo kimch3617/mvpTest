@@ -24,13 +24,9 @@ class UserLocalDataSource @Inject constructor(context: Context) {
 ////        }
 //    }
 
-    fun getUsers(): Observable<List<User>> {
-        return userDao.getUsers()
-    }
+    fun getUsers() = userDao.getUsers()
 
-    fun insertUser(user: User) {
-        userDao.insertUser(user)
-    }
+    fun insertUser(user: User) = userDao.insertUser(user)
 
 //    fun containUsers(ids: List<Int>, loaded: (users: List<User>) -> Unit) {
 ////        executor.execute {
@@ -39,15 +35,9 @@ class UserLocalDataSource @Inject constructor(context: Context) {
 ////        }
 //    }
 
-    fun containUsers(ids: List<Int>): Observable<List<User>> {
-        return userDao.containUsers(ids)
-    }
+    fun containUsers(ids: List<Int>) = userDao.containUsers(ids)
 
-    fun deleteUser(user: User) {
-//        executor.execute {
-//            val users = userDao.deleteUser(user)
-//        }
-    }
+    fun deleteUser(user: User) = userDao.deleteUser(user)
 
     fun start() {
         Log.e("start", "start")

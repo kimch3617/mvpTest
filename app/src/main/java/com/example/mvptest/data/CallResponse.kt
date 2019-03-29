@@ -5,5 +5,7 @@ sealed class CallResponse {
 
     class Success<T : RemoteData>(val data: T?) : CallResponse()
 
+    class Success2<T : RemoteData>(val data: T?) : CallResponse()
+
     class Error(val err: Throwable) : CallResponse()
 }

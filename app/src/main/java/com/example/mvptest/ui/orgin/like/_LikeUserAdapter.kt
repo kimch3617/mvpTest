@@ -12,14 +12,14 @@ import com.example.mvptest.data.User
 import kotlinx.android.synthetic.main.item_user_no_binding.view.*
 import javax.inject.Inject
 
-class LikeUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, LikeUserAdapter.UserHolder>() {
+class _LikeUserAdapter @Inject constructor(): BaseRecyclerViewAdapter<User, _LikeUserAdapter.UserHolder>() {
 
-    lateinit var clickCallback: (user: User?) -> Unit
+    lateinit var clickCallback: (position: Int, user: User?) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
         val holder = UserHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user_no_binding, null))
         holder.itemView.setOnClickListener {
-            clickCallback(getItem(holder.adapterPosition))
+            clickCallback(holder.adapterPosition, getItem(holder.adapterPosition))
         }
         return holder
     }

@@ -3,7 +3,7 @@ package com.example.mvptest.ui.rx
 import android.content.Intent
 import android.os.Bundle
 
-internal sealed class ActivityLifecycle {
+sealed class ActivityLifecycle {
     class OnCreate(val intent: Intent, val saveInstanceState: Bundle?) : ActivityLifecycle()
 
     class OnStart : ActivityLifecycle()
