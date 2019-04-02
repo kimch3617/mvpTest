@@ -14,7 +14,6 @@ import com.example.mvptest.ui.rx.like.repository.LikeUserRepositoryApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class LikeUserViewModel @Inject constructor(
@@ -28,6 +27,8 @@ internal class LikeUserViewModel @Inject constructor(
 
     val onCreate = channel.ofLifecycle().ofType<ActivityLifecycle.OnCreate>()
 
+//    val onResume = channel.ofLifecycle().ofType<ActivityLifecycle.OnResume>()
+
     val loadLikeUsers = onCreate
 
     val clickDeleteLike = channel.ofViewAction().ofType<LikeUserViewAction.OnLikeDeleted>()
@@ -39,17 +40,19 @@ internal class LikeUserViewModel @Inject constructor(
 //    private val deleteLikeUserError = channel.ofData().ofType<CallResponse.Error>()
 
     init {
+        Log.e("LikeUserViewModel", "init $disposable")
         repository.setViewModel(this)
 
-        disposable.addAll(*viewDisposables())
+        disposable.addAll(*looknFeelDisposables())
     }
 
-    private fun viewDisposables(): Array<Disposable> {
+    private fun looknFeelDisposables(): Array<Disposable> {
         return arrayOf(
             loadLikeUserSuccess
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     it.data?.let { result ->
+                        Log.e("loadLikeUserSuccess", "$result")
                         loadLikeUserResponse.value = LikeUserLooknFeel.LikeUsers(result.users)
                     }
                 },
@@ -58,6 +61,7 @@ internal class LikeUserViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     it.data?.let { result ->
+                        Log.e("deleteLikeUserSuccess", "$result")
                         deleteLikeResponse.value = LikeUserLooknFeel.DeleteLikeUser(result.user)
                     }
                 }

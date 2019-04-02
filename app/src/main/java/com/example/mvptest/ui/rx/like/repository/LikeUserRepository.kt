@@ -15,22 +15,21 @@ internal class LikeUserRepository @Inject constructor(private val dataSource: Us
         with(viewModel) {
             val executeLoadLikeUsers = loadLikeUsers
                 .observeOn(Schedulers.io())
-                .concatMap { dataSource.getUsers() }
-                .map { CallResponse.Success(LikeUsersResult(it)) }
-                .doOnNext {
-                    Log.e("loadUsers", "${it.data?.users}")
+                .map {
+                    Log.e("loadUsers-map", "$it")
+                    val users = dataSource.getUsers()
+                    CallResponse.Success(LikeUsersResult(users)) as CallResponse
                 }
+                .onErrorReturn { CallResponse.Error(it) }
                 .share()
 
             val executeDeleteLike = clickDeleteLike
                 .observeOn(Schedulers.io())
                 .map {
                     dataSource.deleteUser(it.user)
-                    CallResponse.Success2(DeleteLikeUserResult(it.position, it.user))
+                    CallResponse.Success2(DeleteLikeUserResult(it.position, it.user)) as CallResponse
                 }
-                .doOnNext {
-                    Log.e("deleteUser", "${it.data?.user}")
-                }
+                .onErrorReturn { CallResponse.Error(it) }
                 .share()
 
             disposable.addAll(

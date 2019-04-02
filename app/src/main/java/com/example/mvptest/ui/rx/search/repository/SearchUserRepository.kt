@@ -5,12 +5,11 @@ import com.example.mvptest.data.CallResponse
 import com.example.mvptest.repository.local.UserLocalDataSource
 import com.example.mvptest.repository.remote.RxRestApi
 import com.example.mvptest.ui.rx.search.dto.LikeUserResult
+import com.example.mvptest.ui.rx.search.dto.SearchUserViewAction
 import com.example.mvptest.ui.rx.search.viewModel.SearchUserViewModel
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.rxkotlin.zipWith
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class SearchUserRepository @Inject constructor(
@@ -21,66 +20,41 @@ internal class SearchUserRepository @Inject constructor(
 
     override fun setViewModel(viewModel: SearchUserViewModel) {
         with(viewModel) {
-            val executeSearchUsers = clickSearch
+            val executeSearchUsers = Observable.merge(clickSearch, pagingSearch)
                 .observeOn(Schedulers.io())
-                .concatMap { apiCall.getUsers(it.query, searchPage) }
+                .concatMap {
+                    if(it is SearchUserViewAction.OnSearchClicked) {
+                        queryAndPage.query = it.query
+                        queryAndPage.page = 0
+                    }
+                    if(it is SearchUserViewAction.OnSearchPaging) {
+                        queryAndPage.page++
+                    }
+                    apiCall.getUsers(queryAndPage.query, queryAndPage.page)
+                }
                 .doOnNext {
                     Log.e("search", "users: $it")
                 }
-                .doOnError { Log.e("check", "err") }
-                .doOnComplete { Log.e("search", "complete") }
-//                .map { users ->
-//                    val ids = users.items.map { it.id }
-//                    dataSource.containUsers(ids) { list ->
-//                        users.items.map { user ->
-//                            if (list.contains(user)) {
-//                                user.isLike = true
-//                            }
-//                        }
-//                    }
-//
-//                    CallResponse.Success(users) as CallResponse
-//                }
-//                .onErrorReturn { CallResponse.Error(it) }
-                .share()
-
-            val executorCheckLikeUsers = executeSearchUsers
-                .observeOn(Schedulers.io())
-                .concatMap { users ->
+                .map { users ->
                     val ids = users.items.map { it.id }
-                    dataSource.containUsers(ids)
-                }
-                .doOnNext {
-                    Log.e("check user", "users: $it")
-                }
-                .doOnError { Log.e("check user", "err") }
-                .doOnComplete { Log.e("check user", "complete") }
-                .share()
+                    val containUsers = dataSource.containUsers(ids)
 
-            val executorSearchAndLikeUsers = Observables
-                .zip(executeSearchUsers, executorCheckLikeUsers) { searchUsers, likeUsers ->
-                    searchUsers.items.map { user ->
-                        if (likeUsers.contains(user)) {
+                    users.items.map { user ->
+                        if (containUsers.contains(user)) {
                             user.isLike = true
                         }
                     }
 
-                    CallResponse.Success(searchUsers) as CallResponse
+                    CallResponse.Success(users) as CallResponse
                 }
                 .onErrorReturn { CallResponse.Error(it) }
-                .doOnNext {
-                    Log.e("search_check", "users: $it")
-                }
-                .doOnError { Log.e("search_check", "err") }
-                .doOnComplete { Log.e("search_check", "complete") }
-                .share()
 
             val executeAddLikeUser = clickLike
                 .observeOn(Schedulers.io())
                 .map {
                     it.user.isLike = true
                     dataSource.insertUser(it.user)
-                    CallResponse.Success(LikeUserResult(it.position, true)) as CallResponse
+                    CallResponse.Success2(LikeUserResult(it.position, true)) as CallResponse
                 }
                 .doOnNext {
                     Log.e("add", "users: $it")
@@ -89,7 +63,7 @@ internal class SearchUserRepository @Inject constructor(
                 .share()
 
             disposable.addAll(
-                executorSearchAndLikeUsers.subscribe(channel::accept),
+                executeSearchUsers.subscribe(channel::accept),
                 executeAddLikeUser.subscribe(channel::accept)
             )
         }

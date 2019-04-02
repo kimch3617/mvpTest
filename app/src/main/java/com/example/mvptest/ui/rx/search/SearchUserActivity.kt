@@ -19,6 +19,7 @@ import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
 import com.example.mvptest.ui.like.LikeUserActivity
 import com.example.mvptest.ui.rx.search.dto.LikeUserResult
+import com.example.mvptest.ui.rx.search.dto.SearchUserLooknFeel
 import com.example.mvptest.ui.rx.search.dto.SearchUserViewAction
 import com.example.mvptest.ui.rx.search.viewModel.SearchUserViewModel
 import com.example.mvptest.util.PaginationScrollListener
@@ -79,6 +80,7 @@ class SearchUserActivity : BaseActivity() {
                 adapter.removeAll()
 
                 viewModel.channel.accept(SearchUserViewAction.OnSearchClicked(q ?: ""))
+//                viewModel.channel.accept(SearchUserViewAction.OnChangeSearchPage(true))
                 searchViewActionBar.clearFocus()
 
                 return true
@@ -119,7 +121,7 @@ class SearchUserActivity : BaseActivity() {
         (recycler_users.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recycler_users.addOnScrollListener(object: PaginationScrollListener(manager) {
             override fun loadMoreItems() {
-
+                viewModel.channel.accept(SearchUserViewAction.OnSearchPaging)
             }
         })
     }
@@ -128,49 +130,21 @@ class SearchUserActivity : BaseActivity() {
         viewModel.searchDataResponse.observe(this, Observer {
             setSearchUser(it)
         })
-        viewModel.likeData.observe(this, Observer {
+        viewModel.likeDataResponse.observe(this, Observer {
             setLikeUser(it)
         })
     }
 
-    private fun setSearchUser(response: CallResponse) {
-        Log.e("setSearchDataForAdapter", "$response")
-        when(response) {
-            is CallResponse.Loading -> {
-                Log.e("Loading", "${response.isLoading}")
-            }
-
-            is CallResponse.Success<*> -> {
-                if(response.data is SearchUsers) {
-                    adapter.addItems(response.data.items)
-                }
-            }
-
-            is CallResponse.Error -> {
-                Toast.makeText(this, "${response.err}", Toast.LENGTH_SHORT).show()
-            }
-        }
+    private fun setSearchUser(looknFeel: SearchUserLooknFeel.SetSearchUser) {
+        Log.e("setSearchUser", "${looknFeel.users}")
+        adapter.addItems(looknFeel.users)
     }
 
-    private fun setLikeUser(response: CallResponse) {
-        Log.e("setLikeUser", "$response")
-        when(response) {
-            is CallResponse.Loading -> {
-                Log.e("Loading", "${response.isLoading}")
-            }
-
-            is CallResponse.Success<*> -> {
-                if(response.data is LikeUserResult) {
-                    val position = response.data.position
-                    adapter.getItem(position)?.isLike = response.data.result
-                    adapter.notifyItemChanged(position)
-                }
-            }
-
-            is CallResponse.Error -> {
-                Toast.makeText(this, "${response.err}", Toast.LENGTH_SHORT).show()
-            }
-        }
+    private fun setLikeUser(looknFeel: SearchUserLooknFeel.ClickLikeUser) {
+        Log.e("setLikeUser", "$looknFeel")
+        val position = looknFeel.position
+        adapter.getItem(position)?.isLike = looknFeel.isLike
+        adapter.notifyItemChanged(position)
     }
 
     @Subscribe

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -15,8 +16,8 @@ import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-    @Inject protected lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    @Inject protected lateinit var factory: ViewModelProviderFactory
+    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject lateinit var factory: ViewModelProvider.Factory
 
     protected val activityScopeDisposable = CompositeDisposable()
 

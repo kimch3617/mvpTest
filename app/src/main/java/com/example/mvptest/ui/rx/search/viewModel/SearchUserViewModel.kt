@@ -7,12 +7,15 @@ import com.example.mvptest.data.CallResponse
 import com.example.mvptest.data.SearchUsers
 import com.example.mvptest.ui.rx.search.channel.SearchUserChannelApi
 import com.example.mvptest.ui.rx.search.dto.LikeUserResult
+import com.example.mvptest.ui.rx.search.dto.QueryAndPageRefined
+import com.example.mvptest.ui.rx.search.dto.SearchUserLooknFeel
 import com.example.mvptest.ui.rx.search.dto.SearchUserViewAction
 import com.example.mvptest.ui.rx.search.repository.SearchUserRepositoryApi
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class SearchUserViewModel @Inject constructor(
@@ -21,27 +24,23 @@ internal class SearchUserViewModel @Inject constructor(
 
 ): BaseViewModel() {
 
-    val searchDataResponse = MutableLiveData<CallResponse>()
-    val likeData = MutableLiveData<CallResponse>()
+    val searchDataResponse = MutableLiveData<SearchUserLooknFeel.SetSearchUser>()
+    val likeDataResponse = MutableLiveData<SearchUserLooknFeel.ClickLikeUser>()
 
     val clickSearch = channel.ofViewAction().ofType<SearchUserViewAction.OnSearchClicked>()
 
-    val clickLike = channel.ofViewAction().ofType<SearchUserViewAction.OnLikeClicked>()
+    val clickLike = channel.ofViewAction().ofType<SearchUserViewAction.OnLikeClicked>().debounce(500L, TimeUnit.MILLISECONDS)
 
-    var searchPage = 0
+    val pagingSearch = channel.ofViewAction().ofType<SearchUserViewAction.OnSearchPaging>().debounce(500L, TimeUnit.MILLISECONDS)
 
-    private val searchUserResponse = channel.ofData().ofType<CallResponse>()
-
-    private val searchUserLoading = channel.ofData().ofType<CallResponse.Loading>()
+    var queryAndPage = QueryAndPageRefined()
 
     private val searchUserSuccess = channel.ofData().ofType<CallResponse.Success<SearchUsers>>()
 
-    private val searchUserError = channel.ofData().ofType<CallResponse.Error>() /** 에러 call 중복 */
-
-    private val likeUserSuccess = channel.ofData().ofType<CallResponse.Success<LikeUserResult>>()
+    private val likeUserSuccess = channel.ofData().ofType<CallResponse.Success2<LikeUserResult>>()
 
     init {
-        Log.e("SearchUserViewModel", "init $channel, $repository")
+        Log.e("SearchUserViewModel", "init $disposable")
 
         repository.setViewModel(this)
 
@@ -49,19 +48,22 @@ internal class SearchUserViewModel @Inject constructor(
     }
 
     private fun viewDisposables(): Array<Disposable> {
-//        return arrayOf(
-//            searchUserResponse
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe { searchDataResponse.value = it }
-//        )
         return arrayOf(
-            Observable.merge(searchUserSuccess, searchUserError)
+            searchUserSuccess
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { searchDataResponse.value = it },
+                .subscribe {
+                    it.data?.let { result ->
+                        searchDataResponse.value = SearchUserLooknFeel.SetSearchUser(result.items)
+                    }
+                },
 
             likeUserSuccess
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { likeData.value = it }
+                .subscribe {
+                    it.data?.let { result ->
+                        likeDataResponse.value = SearchUserLooknFeel.ClickLikeUser(result.position, true)
+                    }
+                }
         )
     }
 

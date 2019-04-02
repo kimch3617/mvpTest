@@ -33,6 +33,13 @@ class LikeUserActivity : BaseActivity() {
         observeLiveData()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        Log.e("Like", "OnResume")
+//        viewModel.channel.accept(ActivityLifecycle.OnResume())
+    }
+
     override fun onDestroy() {
         dataSource.finish()
 
