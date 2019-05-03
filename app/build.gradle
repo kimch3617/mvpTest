@@ -13,6 +13,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
         applicationId "com.example.mvptest"
         minSdkVersion 21
@@ -21,31 +22,46 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.com.example.mvptest.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file('../keystore/MyApp')
+            storePassword 'rlackd!1105'
+            keyAlias 'MyApp'
+            keyPassword 'rlackd!1105'
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix buildTypeDebug
 
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            signingConfig signingConfigs.release
         }
 
         qa {
             applicationIdSuffix buildTypeQa
 
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            signingConfig signingConfigs.release
         }
 
         release {
+            applicationIdSuffix buildTypeRelease
+
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            signingConfig signingConfigs.release
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             lintOptions {
                 checkReleaseBuilds false
                 abortOnError false
             }
-            applicationIdSuffix buildTypeRelease
-
-            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
     }
+
     applicationVariants.all { variant ->
         def buildType = variant.buildType.name.toLowerCase()
 
