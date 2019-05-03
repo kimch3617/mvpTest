@@ -40,7 +40,6 @@ class SearchUserActivity : BaseActivity() {
 
         observeLiveData()
 
-
         Log.e("viewModel", "${viewModel.clickSearch}")
 
 //        dataSource.start()
