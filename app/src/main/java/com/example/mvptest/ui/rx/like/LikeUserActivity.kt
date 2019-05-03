@@ -1,4 +1,4 @@
-package com.example.mvptest.ui.like
+package com.example.mvptest.ui.rx.like
 
 import android.os.Bundle
 import android.util.Log

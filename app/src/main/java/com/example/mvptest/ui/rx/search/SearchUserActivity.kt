@@ -1,24 +1,19 @@
 package com.example.mvptest.ui.rx.search
 
-import Flavors
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.mvptest.R
 import com.example.mvptest.base.BaseActivity
-import com.example.mvptest.data.CallResponse
-import com.example.mvptest.data.SearchUsers
 import com.example.mvptest.data.User
 import com.example.mvptest.repository.local.UserLocalDataSource
-import com.example.mvptest.ui.like.LikeUserActivity
-import com.example.mvptest.ui.rx.search.dto.LikeUserResult
+import com.example.mvptest.ui.rx.like.LikeUserActivity
 import com.example.mvptest.ui.rx.search.dto.SearchUserLooknFeel
 import com.example.mvptest.ui.rx.search.dto.SearchUserViewAction
 import com.example.mvptest.ui.rx.search.viewModel.SearchUserViewModel
@@ -38,8 +33,6 @@ class SearchUserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_user)
-
-        supportActionBar?.title = Flavors.name
 
         EventBus.getDefault().register(this)
 

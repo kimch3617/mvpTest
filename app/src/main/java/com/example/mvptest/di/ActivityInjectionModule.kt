@@ -1,6 +1,6 @@
 package com.example.mvptest.di
 
-import com.example.mvptest.ui.like.LikeUserActivity
+import com.example.mvptest.ui.rx.like.LikeUserActivity
 import com.example.mvptest.ui.rx.like.LikeUserModule
 import com.example.mvptest.ui.rx.search.SearchUserActivity
 import com.example.mvptest.ui.rx.search.SearchUserModule

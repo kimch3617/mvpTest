@@ -22,6 +22,18 @@ android {
         testInstrumentationRunner "android.support.com.example.mvptest.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix buildTypeDebug
+
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+        }
+
+        qa {
+            applicationIdSuffix buildTypeQa
+
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -30,11 +42,6 @@ android {
                 abortOnError false
             }
             applicationIdSuffix buildTypeRelease
-
-            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
-        }
-        debug {
-            applicationIdSuffix buildTypeDebug
 
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
@@ -59,7 +66,7 @@ android {
         }
     }
 
-    flavorDimensions "type"
+    /*flavorDimensions "type"
 
     productFlavors {
         demo {
@@ -72,7 +79,7 @@ android {
             applicationIdSuffix ".pro"
             versionNameSuffix "-pro"
         }
-    }
+    }*/
 }
 
 ext {

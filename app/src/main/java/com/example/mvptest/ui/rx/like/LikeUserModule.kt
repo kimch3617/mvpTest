@@ -6,7 +6,6 @@ import com.example.mvptest.base.BaseRecyclerViewAdapter
 import com.example.mvptest.base.ViewModelProviderFactory
 import com.example.mvptest.data.User
 import com.example.mvptest.di.qualifier.ViewModelKey
-import com.example.mvptest.ui.like.LikeUserAdapter
 import com.example.mvptest.ui.rx.like.channel.LikeUserChannel
 import com.example.mvptest.ui.rx.like.channel.LikeUserChannelApi
 import com.example.mvptest.ui.rx.like.repository.LikeUserRepository

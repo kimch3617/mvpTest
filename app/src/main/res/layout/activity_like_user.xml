@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.like.LikeUserActivity">
+        tools:context=".ui.rx.like.LikeUserActivity">
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
