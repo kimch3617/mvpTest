@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 
 //def getAppVersionCode = { ->
 //    return project.hasProperty('versionCode') ? versionCode.toInteger() : 1
@@ -36,6 +37,10 @@ android {
         debug {
             applicationIdSuffix buildTypeDebug
 
+            ext.crashlyticsApiSecret = "a4d59f620de8226d74ee8206932cc5b7e6e83c1b97335919917ae4f447adb968"
+            ext.betaDistributionReleaseNotesFilePath = file('../releaseNote/release_note.txt').absolutePath
+            ext.betaDistributionGroupAliases="MvpTester"
+
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
             signingConfig signingConfigs.release
         }
@@ -43,12 +48,20 @@ android {
         qa {
             applicationIdSuffix buildTypeQa
 
+            ext.crashlyticsApiSecret = "a4d59f620de8226d74ee8206932cc5b7e6e83c1b97335919917ae4f447adb968"
+            ext.betaDistributionReleaseNotesFilePath = file('../releaseNote/release_note.txt').absolutePath
+            ext.betaDistributionGroupAliases="MvpTester"
+
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
             signingConfig signingConfigs.release
         }
 
         release {
             applicationIdSuffix buildTypeRelease
+
+            ext.crashlyticsApiSecret = "a4d59f620de8226d74ee8206932cc5b7e6e83c1b97335919917ae4f447adb968"
+            ext.betaDistributionReleaseNotesFilePath = file('../releaseNote/release_note.txt').absolutePath
+            ext.betaDistributionGroupAliases="MvpTester"
 
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
             signingConfig signingConfigs.release
@@ -122,6 +135,24 @@ ext {
     }
 }
 
+// The following code can be inserted at the bottom of your build.gradle file
+import com.crashlytics.tools.utils.PropertiesUtils
+
+File crashlyticsProperties = new File("${project.projectDir.absolutePath}/fabric.properties")
+android.applicationVariants.all { variant ->
+    def variantSuffix = variant.name.capitalize()
+    def generateResourcesTask = project.tasks.getByName("fabricGenerateResources${variantSuffix}")
+    def generatePropertiesTask = task("fabricGenerateProperties${variantSuffix}") {
+        doLast {
+            Properties properties = new Properties()
+            println "...copying apiSecret for ${variant.name}"
+            properties.put("apiSecret", variant.buildType.ext.crashlyticsApiSecret)
+            PropertiesUtils.injectPropertyInFile(crashlyticsProperties, properties, "")
+        }
+    }
+    generateResourcesTask.dependsOn generatePropertiesTask
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -130,6 +161,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    api("com.crashlytics.sdk.android:crashlytics:2.10.0@aar") { transitive = true }
 
 //    implementation "com.android.support:appcompat-v7:$support_lib_version"
 //    implementation "com.android.support:recyclerview-v7:$support_lib_version"

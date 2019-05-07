@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.crashlytics.android.Crashlytics
 import com.example.mvptest.R
 import com.example.mvptest.base.BaseActivity
 import com.example.mvptest.data.User
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_search_user.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
+
 
 class SearchUserActivity : BaseActivity() {
 
@@ -42,6 +44,9 @@ class SearchUserActivity : BaseActivity() {
 
         Log.e("viewModel", "${viewModel.clickSearch}")
 
+        Crashlytics.setUserIdentifier("12345")
+        Crashlytics.setUserEmail("user@fabric.io")
+        Crashlytics.setUserName("Test User")
 //        dataSource.start()
     }
 
