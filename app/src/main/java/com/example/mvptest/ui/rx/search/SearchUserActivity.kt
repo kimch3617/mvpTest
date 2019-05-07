@@ -42,8 +42,6 @@ class SearchUserActivity : BaseActivity() {
 
         observeLiveData()
 
-        Log.e("viewModel", "${viewModel.clickSearch}")
-
         Crashlytics.setUserIdentifier("12345")
         Crashlytics.setUserEmail("user@fabric.io")
         Crashlytics.setUserName("Test User")
