@@ -27,9 +27,6 @@
                     <!--android:value=".ui.rx.search.SearchUserActivity"/>-->
         </activity>
         <activity android:name=".ui.rx.like.LikeUserActivity"/>
-        <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="79727b482f253f0fbfd03618a0f0c749b683a6ee" />
     </application>
 
 </manifest>

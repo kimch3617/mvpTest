@@ -37,7 +37,7 @@ android {
         debug {
             applicationIdSuffix buildTypeDebug
 
-            ext.crashlyticsApiSecret = "a4d59f620de8226d74ee8206932cc5b7e6e83c1b97335919917ae4f447adb968"
+            ext.crashlyticsApiSecret = "f503574b713243bd4afa644e67be1377ffb4b672ebd6dec5732e4fe7dec72e27"
             ext.betaDistributionReleaseNotesFilePath = file('../releaseNote/release_note.txt').absolutePath
             ext.betaDistributionGroupAliases="MvpTester"
 
@@ -48,7 +48,7 @@ android {
         qa {
             applicationIdSuffix buildTypeQa
 
-            ext.crashlyticsApiSecret = "a4d59f620de8226d74ee8206932cc5b7e6e83c1b97335919917ae4f447adb968"
+            ext.crashlyticsApiSecret = "f8adaf4ec3b6e04d16440152916b41a6e97d7253735d157e07f1aac12dcc74ea"
             ext.betaDistributionReleaseNotesFilePath = file('../releaseNote/release_note.txt').absolutePath
             ext.betaDistributionGroupAliases="MvpTester"
 
@@ -59,7 +59,7 @@ android {
         release {
             applicationIdSuffix buildTypeRelease
 
-            ext.crashlyticsApiSecret = "a4d59f620de8226d74ee8206932cc5b7e6e83c1b97335919917ae4f447adb968"
+            ext.crashlyticsApiSecret = "ce7acaa708ec4c7808ecb5473a23bee0fea674e62ecd0d1e3a8fbe139f0f49d9"
             ext.betaDistributionReleaseNotesFilePath = file('../releaseNote/release_note.txt').absolutePath
             ext.betaDistributionGroupAliases="MvpTester"
 

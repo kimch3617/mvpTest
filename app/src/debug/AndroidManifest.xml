@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.mvptest">
+
+    <application>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3896547ddaf9cd6899ba8839db08a6b51c4dd599" />
+    </application>
+
+</manifest>
